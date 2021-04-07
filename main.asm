@@ -1,5 +1,7 @@
 include macros/prints.asm
+include macros/file.asm
 include macros/general.asm
+include macros/analize.asm
 
 .model small
 
@@ -10,7 +12,11 @@ include macros/general.asm
 headerMsg db 0ah, 'UNIVERSIDAD DE SAN CARLOS DE GUATEMALA', 0ah,'FACULTAD DE INGENIERIA', 0ah, 'ESCUELA DE CIENCIAS Y SISTEMAS', 0ah, 'ARQUITECTURA DE COMPUTADORAS Y ENSAMBLADORES 1', 0ah, 'SECCION A', 0ah, 'NOMBRE: ELIAN SAUL ESTRADA URBINA', 0ah, 'CARNE: 201806838', 0ah, 'PRACTICA 4', '$'
 menuMsg db 0ah, 0ah, '---------------PRINCIPAL MENU---------------', 0ah, '1. File Upload', 0ah, '2. Sort', 0ah, '3. Generate Report', 0ah, '4. Exit', 0ah, 0ah, 'Choose an Option please: ', '$'
 fileUploadMsg db 0ah, 0ah, '---------------FILE UPLOAD---------------', '$'
+pathFileMsg db 0ah, 0ah, 'Enter path file: ', '$'
 velocityMenu db 0ah, 0ah, 'Ingrese una velocidad (0-9): ', '$'
+errorClose db 0ah, 0ah, 'Error Closing', '$'
+errorWrite db 0ah, 0ah, 'Error Writing', '$'
+errorCreate db 0ah, 0ah, 'Error Creating', '$'
 sortMsg db 0ah, 0ah, '---------------SORT MENU---------------', 0ah, '1. BubbleSort', 0ah, '2. QuickSort', 0ah, '3. ShellSort', 0ah, 0ah, 'Choose an Option please: ', '$'
 orMenuMsg db 0ah, 0ah, '---------------MODE SORT---------------', 0ah, '1. Falling', 0ah, '2. Upward', 0ah, 0ah, 'Choose an Option please: ', '$'
 reportMsg db 0ah, 0ah, 'Rerport Generated Successfully', '$'
@@ -23,9 +29,33 @@ flagTrue db 31h, '$'
 flagFalse db 30h, '$'
 flagMenu db 30h, '$'
 flagTypeSort db ?, '$'
+isNegative db ?, '$'
 
 
 velocity db ? , 0
+handle dw ?, 0
+index dw ?, 0
+numberR dw ?, 0
+
+st0 db 'st0', '$'
+st1 db 'st1', '$'
+st2 db 'st2', '$'
+st3 db 'st3', '$'
+st4 db 'st4', '$'
+
+
+bufferFileName db 15 dup('$'), 0
+bufferFile db 10000 dup('$'), 0
+bufferNumber db 4 dup('$'), 0
+bufferList db 20 dup('$'), 0
+bufferOrderList db 20 dup('$'), 0
+
+
+axB dw ?, 0
+bxB dw ?, 0
+cxB dw ?, 0
+dxB dw ?, 0
+siB dw ?, 0
 
 .code 
 
@@ -66,6 +96,29 @@ velocity db ? , 0
 
         FILE_UPLOAD:
             print fileUploadMsg
+            print pathFileMsg
+
+            getInput bufferFileName
+
+            openFile bufferFileName
+            readFile 
+            closeFile
+
+
+            getListNumber bufferFile, bufferList, bufferNumber
+
+            ;xor si, si
+
+            ;mov numberR, bufferList[si]
+
+            mov al, bufferList[9]
+            getBuffer bufferNumber
+
+            print bufferNumber
+
+
+            jmp EXIT
+        
 
 
         VELOCITYOP:
