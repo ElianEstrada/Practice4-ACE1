@@ -1,10 +1,10 @@
 getListNumber macro bufferContent, bufferListNumber, number
 
-
     LOCAL IGNORE_LINE, NOT_NUMBER, IS_NUMBER, OUT_LIST
 
     xor di, di
     xor si, si
+    mov countList, 0000h
 
     IGNORE_LINE:
 
@@ -59,6 +59,7 @@ getListNumber macro bufferContent, bufferListNumber, number
         mov si, siB
         mov bufferListNumber[si], al
         inc si
+        inc countList
 
         mov index, 0000h
 

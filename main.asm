@@ -2,6 +2,7 @@ include macros/prints.asm
 include macros/file.asm
 include macros/general.asm
 include macros/analize.asm
+include macros/array.asm
 
 .model small
 
@@ -35,6 +36,7 @@ isNegative db ?, '$'
 velocity db ? , 0
 handle dw ?, 0
 index dw ?, 0
+countList dw ?, 0
 numberR dw ?, 0
 
 st0 db 'st0', '$'
@@ -56,6 +58,7 @@ bxB dw ?, 0
 cxB dw ?, 0
 dxB dw ?, 0
 siB dw ?, 0
+diB dw ?, 0
 
 .code 
 
@@ -63,6 +66,7 @@ siB dw ?, 0
 
         mov dx, @DATA
         mov ds, dx
+        mov es, dx
 
         MENU: 
             clear
@@ -107,14 +111,7 @@ siB dw ?, 0
 
             getListNumber bufferFile, bufferList, bufferNumber
 
-            ;xor si, si
-
-            ;mov numberR, bufferList[si]
-
-            mov al, bufferList[9]
-            getBuffer bufferNumber
-
-            print bufferNumber
+            showArray bufferList
 
 
             jmp EXIT

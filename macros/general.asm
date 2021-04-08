@@ -218,6 +218,20 @@ copy macro bufferO, bufferD
 
 ENDM
 
+clearBuffer macro buffer
+
+    mov diB, di
+   
+    MOV al, 24h
+
+    LEA di, buffer
+    MOV cx, LENGTHOF buffer
+    CLD
+    REP stosb
+
+    mov di, diB
+
+ENDM
 
 chooseMenu macro flag
 
