@@ -3,6 +3,8 @@ include macros/file.asm
 include macros/general.asm
 include macros/analize.asm
 include macros/array.asm
+include macros/sorts.asm
+include macros/graph.asm
 
 .model small
 
@@ -37,7 +39,11 @@ velocity db ? , 0
 handle dw ?, 0
 index dw ?, 0
 countList dw ?, 0
+countList2 dw ?, 0
 numberR dw ?, 0
+aux dw ?, 0
+aux2 dw ?, 0
+
 
 st0 db 'st0', '$'
 st1 db 'st1', '$'
@@ -50,6 +56,7 @@ bufferFileName db 15 dup('$'), 0
 bufferFile db 10000 dup('$'), 0
 bufferNumber db 4 dup('$'), 0
 bufferList db 20 dup('$'), 0
+bufferListB db 20 dup('$'), 0
 bufferOrderList db 20 dup('$'), 0
 
 
@@ -111,10 +118,9 @@ diB dw ?, 0
 
             getListNumber bufferFile, bufferList, bufferNumber
 
-            showArray bufferList
+            copy bufferList, bufferListB
 
-
-            jmp EXIT
+            jmp MENU
         
 
 
@@ -165,6 +171,32 @@ diB dw ?, 0
 
         BUBBLESORT:
 
+            call mode_video
+
+            ; pixelPaint 15d, 120h, 160
+            ; pixelPaint 15d, 121h, 160
+            ; pixelPaint 15d, 0, 0
+            ; pixelPaint 15d, 0, 1
+
+            paintBorder 20d, 195d, 5d, 315d, 15d
+
+
+
+            delay 5000
+
+            call mode_text
+
+            ; showArray bufferList
+
+            ; bubbleSortL bufferList
+
+            ; printc 0ah
+
+            ; showArray bufferList
+            ; printc 0ah
+            ; showArray bufferListB
+
+
         QUICKSORT:
 
         SHELLSORT:        
@@ -180,5 +212,30 @@ diB dw ?, 0
         
     
     main endp
+
+    mode_video proc
+
+        mov ax, 13h
+        int 10h
+
+        mov dx, 0A000h
+        mov ds, dx
+        ret
+
+    mode_video endp
+
+    mode_text proc
+
+        mov ax, 03h
+        int 10h
+
+        mov dx, @DATA
+        mov ds, dx
+        mov es, dx
+
+        ret
+
+    mode_text endp
+
 
 end

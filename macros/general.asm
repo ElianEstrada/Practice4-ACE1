@@ -14,6 +14,7 @@ backup macro
     mov cxB, cx                     ;cxB is a global variable
     mov dxB, dx                     ;dxB is a global variable
     mov siB, si                     ;siB is a global variable
+    mov diB, di
 
 ENDM
 
@@ -24,6 +25,7 @@ restarR macro
     mov cx, cxB
     mov dx, dxB
     mov si, siB
+    mov di, diB
 
     xor axB, 0000h
     xor bxB, 0000h
