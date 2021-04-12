@@ -21,9 +21,9 @@ pixelPaint macro i, j, color
     xor bx, bx
     xor di, di
 
-    pop ax
-    pop bx
     pop di
+    pop bx
+    pop ax
 
 
 ENDM
@@ -67,9 +67,105 @@ paintBorder MACRO up, down, left, right, color
 ENDM
 
 paintBar MACRO up, down, left, right, color
+
+
+    ;call seg_video
+    LOCAL FOR1, FOR2, OUT_BAR
+
+    push si
+    push cx
+
+    xor si, si
+    mov si, left                                ;5
+    xor cx, cx
+    mov cx, up                                  ;25
+
+    FOR1: 
+        ;xor di, di
+        mov cx, up
+
+        FOR2: 
+
+            pixelPaint cx, si, color            ;25, 5; 26, 5; 27, 5; 28, 5
+            ;pixelPaint di, si, color
+
+            inc cx                              ;26, 27, 28, 29
+
+            cmp cx, down                        ;29 != 30
+            jne FOR2
+        
+        inc si                                  
+        cmp si, right
+        jne FOR1
+
+    OUT_BAR: 
+        ;delay 2000
+
+        pop cx
+        pop si
+
     
 ENDM
 
+paintGraph MACRO count
+
+    LOCAL FOR1;, FOR2
+
+    push cx
+    push ax
+    push bx
+    push dx
+
+    xor ax, ax
+    xor bx, bx
+    mov cx, count
+    mov ax, 8d
+    mov bx, ax
+
+    FOR1: 
+
+        add bx, maxWidth
+
+        call seg_video
+        
+        paintBar 25d, 165d, ax, bx, 15d
+
+        call seg_text
+
+        mov ax, bx
+        add ax, 5d
+        mov bx, ax
+        LOOP FOR1
+
+    pop dx
+    pop bx
+    pop ax
+    pop cx
+
+    
+ENDM
+
+posCursor MACRO row, column
+
+    push ax 
+    push bx
+    push dx
+
+    xor ax, ax
+
+    mov ah, 02h
+    mov bh, 00h
+    mov dh, row
+    mov dl, column
+    int 10h
+
+    xor ax, ax
+
+    pop dx
+    pop bx
+    pop ax
+    
+ENDM
 
 delay macro retard
 
@@ -100,8 +196,8 @@ delay macro retard
         xor ax, ax
         xor bx, bx 
 
-        pop ax
-        pop bx
 
+    pop ax
+    pop bx
 
 ENDM

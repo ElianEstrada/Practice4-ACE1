@@ -68,6 +68,11 @@ bubbleSortL macro listNumber
         mov listNumber[si], al
 
         inc di
+
+        call clearGraph
+        call drawGraph
+        delay velocity
+
         jmp FOR2
 
     OUT_BUBBLE: 

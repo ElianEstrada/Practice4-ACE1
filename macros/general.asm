@@ -149,6 +149,11 @@ getBuffer macro buffer
 
     LOCAL NUMBER, SIGN, NEGATIVE, FILL_BUFFR , OUT_BUFFER
 
+    push bx
+    push si
+    push cx
+    push dx
+
     xor bx, bx
     xor si, si
     xor cx, cx
@@ -192,6 +197,11 @@ getBuffer macro buffer
 
     OUT_BUFFER:
         mov buffer[si], 24h
+
+        pop dx
+        pop cx
+        pop si
+        pop bx
 
 
 ENDM

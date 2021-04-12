@@ -15,8 +15,8 @@ showArray macro listNumber
         je EXIT
 
         getBuffer bufferNumber
-        print bufferNumber
-        printc 32d
+        writeFile bufferNumber
+        writeFile comma
 
         inc di 
         jmp ITERATE

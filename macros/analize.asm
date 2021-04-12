@@ -1,6 +1,6 @@
 getListNumber macro bufferContent, bufferListNumber, number
 
-    LOCAL IGNORE_LINE, NOT_NUMBER, IS_NUMBER, OUT_LIST
+    LOCAL IGNORE_LINE, NOT_NUMBER, IS_NUMBER, NOT_BIGGER, OUT_LIST
 
     xor di, di
     xor si, si
@@ -63,8 +63,15 @@ getListNumber macro bufferContent, bufferListNumber, number
 
         mov index, 0000h
 
+        cmp maxNumber, ax 
+        jae NOT_BIGGER
+
+        mov maxNumber, ax
+
         jmp NOT_NUMBER
 
+    NOT_BIGGER: 
+        jmp NOT_NUMBER
 
     OUT_LIST:
         mov bufferListNumber[si], 24h
